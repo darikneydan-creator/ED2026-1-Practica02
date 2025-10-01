@@ -9,13 +9,15 @@ type Binario = [Bit]
 --BINARIOS
 
 toDecimal :: Binario -> Int
-toDecimal = undefined
+toDecimal [] = 0
+toDecimal (b : bs) = if b == I then (2 ^ largo bs) + toDecimal bs else 0 + toDecimal bs
 
 toBin :: Int -> Binario
-toBin = undefined
+toBin 0 = []
+toBin n = if mod n 2 == 1 then pegar (toBin (div n 2)) [I] else pegar (toBin (div n 2)) [O]
 
 suma :: Binario -> Binario -> Binario
-suma = undefined
+suma b1 b2 = toBin (toDecimal b1 + toDecimal b2)
 
 --LISTAS
 
@@ -50,3 +52,16 @@ sumaPares = undefined
 --Filter pares
 myFilter :: ((a,b) -> Bool) -> ListaPar a b -> ListaPar a b
 myFilter = undefined
+
+
+--FUNCIONES AUXILIARES
+
+--Funcion que te da un int que representa el largo de una lista
+largo :: [l] -> Int
+largo [] = 0
+largo (_:l) = 1 + largo l
+
+--Funcion que pega dos listas
+pegar :: [a] -> [a] -> [a]
+pegar [] l = l
+pegar (a:l) l2 = a:pegar l l2
