@@ -21,43 +21,21 @@ suma b1 b2 = toBin (toDecimal b1 + toDecimal b2)
 
 --LISTAS 
 
---Funciones auxiliares
-concatena :: [a] -> [a] -> [a]
-concatena [] ys = ys
-concatena (x:xs) ys = (x:concatena xs ys)
-
-reversa :: [a] -> [a]
-reversa [] = []
-reversa (x:xs) = concatena (reversa xs) [x] --O bien reversa xs ++ [x]
-
-contiene :: (Eq a) => [a] -> a -> Bool
-contiene [] _ = False
-contiene (x:xs) y = if x == y then True else contiene xs y
-
-diferencia :: (Eq a) => [a] -> [a] -> [a]
-diferencia [] _ = []
-diferencia (x:xs) ys = if contiene (ys) x then diferencia xs ys else concatena ([x]) (diferencia xs ys)
-
-
---FIN DE LAS FUNCIONES AUXILIARES 
-
 palindromo :: (Eq a)=>[a] -> Bool 
 palindromo []= True
 palindromo (xs) = if (xs) == reversa(xs) then True else False
-
-
 
 --Funcion principal que calcula la diferencia simetrica (Aquellos elementos que esten en la union pero no en la interseccion)
 diferenciaSimetrica :: (Eq a) => [a] -> [a] -> [a]
 diferenciaSimetrica [] []= []
 diferenciaSimetrica (xs) [] = xs
 diferenciaSimetrica [] (ys) = ys
-diferenciaSimetrica (xs) (ys) = concatena (diferencia xs ys) (diferencia ys xs)
+diferenciaSimetrica (xs) (ys) = pegar (diferencia xs ys) (diferencia ys xs)
 
 --Conjunto potencia
 conjuntoPotencia :: [a] -> [[a]]
 conjuntoPotencia []= [[]]
-conjuntoPotencia (x:xs) = concatena (conjuntoPotencia xs) [x:ys | ys <- conjuntoPotencia xs]
+conjuntoPotencia (x:xs) = pegar (conjuntoPotencia xs) [x:ys | ys <- conjuntoPotencia xs]
 
 
 
@@ -84,7 +62,7 @@ myFilter = undefined
 
 --FUNCIONES AUXILIARES
 
---Funcion que te da un int que representa el largo de una lista
+--Funcion que te da un int que representa el largo de una lista (o cantidad de elementos)
 largo :: [l] -> Int
 largo [] = 0
 largo (_:l) = 1 + largo l
@@ -93,3 +71,18 @@ largo (_:l) = 1 + largo l
 pegar :: [a] -> [a] -> [a]
 pegar [] l = l
 pegar (a:l) l2 = a:pegar l l2
+
+--Funcion que invierte el orden de elemento de una lista, ejemplo: [1,2,3,4] -> [4,3,2,1]
+reversa :: [a] -> [a]
+reversa [] = []
+reversa (x:xs) = concatena (reversa xs) [x] --O bien reversa xs ++ [x]
+
+--Funcion que busca un elemento dentro de una lista, y devuelve true si lo encuentra o false si no
+contiene :: (Eq a) => [a] -> a -> Bool
+contiene [] _ = False
+contiene (x:xs) y = if x == y then True else contiene xs y
+
+--Funcion que "resta" elementos de una lista si se encuentran en otra lista
+diferencia :: (Eq a) => [a] -> [a] -> [a]
+diferencia [] _ = []
+diferencia (x:xs) ys = if contiene (ys) x then diferencia xs ys else concatena ([x]) (diferencia xs ys)
