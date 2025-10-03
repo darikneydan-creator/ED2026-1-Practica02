@@ -75,7 +75,7 @@ pegar (a:l) l2 = a:pegar l l2
 --Funcion que invierte el orden de elemento de una lista, ejemplo: [1,2,3,4] -> [4,3,2,1]
 reversa :: [a] -> [a]
 reversa [] = []
-reversa (x:xs) = concatena (reversa xs) [x] --O bien reversa xs ++ [x]
+reversa (x:xs) = pegar (reversa xs) [x] --O bien reversa xs ++ [x]
 
 --Funcion que busca un elemento dentro de una lista, y devuelve true si lo encuentra o false si no
 contiene :: (Eq a) => [a] -> a -> Bool
@@ -85,4 +85,4 @@ contiene (x:xs) y = if x == y then True else contiene xs y
 --Funcion que "resta" elementos de una lista si se encuentran en otra lista
 diferencia :: (Eq a) => [a] -> [a] -> [a]
 diferencia [] _ = []
-diferencia (x:xs) ys = if contiene (ys) x then diferencia xs ys else concatena ([x]) (diferencia xs ys)
+diferencia (x:xs) ys = if contiene (ys) x then diferencia xs ys else pegar ([x]) (diferencia xs ys)
