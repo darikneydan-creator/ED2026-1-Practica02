@@ -45,19 +45,24 @@ type ListaPar a b = [(a,b)]
 
 --Longitud
 longitud :: ListaPar a b -> Int
-longitud = undefined
+longitud [] = 0
+longitud (x:xs) = 2 + longitud xs
 
 --Map
 myMap :: (a -> c) -> (b -> d) -> ListaPar a b -> ListaPar c d 
-myMap = undefined
+myMap _ _ [] = []
+myMap f g ((x,y):xs) = (f x, g y): myMap f g xs
 
 --Sumar pares
-sumaPares :: ListaPar a b -> (a,b)
-sumaPares = undefined
+sumaPares :: (Num a, Num b) => ListaPar a b -> (a,b)
+sumaPares [] = (0,0)
+sumaPares ((x,y):xs) = (x + sx, y + sy) where (sx, sy) = sumaPares xs --lo efectúa después
 
 --Filter pares
 myFilter :: ((a,b) -> Bool) -> ListaPar a b -> ListaPar a b
-myFilter = undefined
+myFilter _ [] = []
+myFilter f (xy:xs) = if f xy then xy : myFilter f xs 
+                     else myFilter f xs
 
 
 --FUNCIONES AUXILIARES
