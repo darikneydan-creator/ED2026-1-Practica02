@@ -46,7 +46,7 @@ type ListaPar a b = [(a,b)]
 --Longitud
 longitud :: ListaPar a b -> Int
 longitud [] = 0
-longitud (x:xs) = 2 + longitud xs
+longitud (_:xs) = 2 + longitud xs
 
 --Map
 myMap :: (a -> c) -> (b -> d) -> ListaPar a b -> ListaPar c d 
